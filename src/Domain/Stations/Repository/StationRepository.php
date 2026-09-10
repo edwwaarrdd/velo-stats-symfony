@@ -30,9 +30,9 @@ class StationRepository extends ServiceEntityRepository
     public function upsert(StationInformation $information): bool
     {
         $station = $this->findStation($information->stationId);
-        $created = $station === null;
+        $created = null === $station;
 
-        if ($station === null) {
+        if (null === $station) {
             $station = new Station(
                 $information->stationId,
                 $information->name,

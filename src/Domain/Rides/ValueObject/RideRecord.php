@@ -6,6 +6,7 @@ namespace App\Domain\Rides\ValueObject;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use RuntimeException;
 
 /**
  * One ride as the export describes it. The export uses camelCase keys and
@@ -67,8 +68,8 @@ final readonly class RideRecord
             new DateTimeZone('UTC'),
         );
 
-        if ($parsed === false) {
-            throw new \RuntimeException("Ride export has an unreadable timestamp: {$value}.");
+        if (false === $parsed) {
+            throw new RuntimeException("Ride export has an unreadable timestamp: {$value}.");
         }
 
         return $parsed;

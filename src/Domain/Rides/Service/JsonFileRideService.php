@@ -20,7 +20,7 @@ final readonly class JsonFileRideService implements RideDataSource
 
     public function fetchRides(): array
     {
-        if (! is_file($this->path)) {
+        if (!is_file($this->path)) {
             throw new RuntimeException("Rides export not found at {$this->path}.");
         }
 

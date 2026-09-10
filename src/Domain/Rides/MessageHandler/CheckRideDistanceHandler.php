@@ -28,11 +28,11 @@ final readonly class CheckRideDistanceHandler
     {
         $ride = $this->rides->findRide($message->rideId);
 
-        if ($ride === null) {
+        if (null === $ride) {
             throw new RuntimeException("Cannot check distance: ride {$message->rideId} does not exist.");
         }
 
-        if ($ride->distanceCheckedAt() !== null) {
+        if (null !== $ride->distanceCheckedAt()) {
             return;
         }
 
@@ -42,7 +42,7 @@ final readonly class CheckRideDistanceHandler
         // The export contains rides from stations that have since been retired.
         // Leaving the ride unmarked means a later reload of the station feed
         // gives it another chance.
-        if ($origin === null || $destination === null) {
+        if (null === $origin || null === $destination) {
             $this->logger->error(sprintf(
                 'Cannot check distance for ride %d: unknown station code(s) %s / %s',
                 $message->rideId,

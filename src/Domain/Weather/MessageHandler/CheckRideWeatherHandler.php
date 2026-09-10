@@ -27,11 +27,11 @@ final readonly class CheckRideWeatherHandler
     {
         $ride = $this->rides->findRide($message->rideId);
 
-        if ($ride === null) {
+        if (null === $ride) {
             throw new RuntimeException("Cannot check weather: ride {$message->rideId} does not exist.");
         }
 
-        if ($ride->weatherCheckedAt() !== null && ! $message->force) {
+        if (null !== $ride->weatherCheckedAt() && !$message->force) {
             return;
         }
 
@@ -39,7 +39,7 @@ final readonly class CheckRideWeatherHandler
         // the rider set off in.
         $origin = $this->stations->findStation($ride->originStationCode());
 
-        if ($origin === null) {
+        if (null === $origin) {
             $this->logger->error(sprintf(
                 'Cannot check weather for ride %d: unknown origin station code %s',
                 $message->rideId,

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Rides;
 
 use App\Domain\Rides\Service\JsonFileRideService;
+use JsonException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -60,7 +61,7 @@ final class JsonFileRideServiceTest extends TestCase
     {
         file_put_contents($this->path, '{ not json');
 
-        $this->expectException(\JsonException::class);
+        $this->expectException(JsonException::class);
 
         (new JsonFileRideService($this->path))->fetchRides();
     }

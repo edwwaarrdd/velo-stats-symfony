@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Support;
 
+use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 
@@ -29,11 +30,11 @@ final class ApiDateTime
 
     private static function format(?DateTimeInterface $value, string $format): ?string
     {
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
 
-        return \DateTimeImmutable::createFromInterface($value)
+        return DateTimeImmutable::createFromInterface($value)
             ->setTimezone(new DateTimeZone('UTC'))
             ->format($format);
     }

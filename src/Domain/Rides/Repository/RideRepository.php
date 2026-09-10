@@ -7,6 +7,7 @@ namespace App\Domain\Rides\Repository;
 use App\Domain\Rides\Entity\Ride;
 use App\Domain\Rides\ValueObject\RideRecord;
 use App\Domain\Routing\Enum\TravelMode;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -41,9 +42,9 @@ class RideRepository extends ServiceEntityRepository
     public function upsert(RideRecord $record): bool
     {
         $ride = $this->findRide($record->rideId);
-        $created = $ride === null;
+        $created = null === $ride;
 
-        if ($ride === null) {
+        if (null === $ride) {
             $ride = new Ride(
                 $record->rideId,
                 $record->accountId,
@@ -167,7 +168,7 @@ class RideRepository extends ServiceEntityRepository
             ->executeQuery($sql, ['mode' => TravelMode::Bike->value])
             ->fetchAssociative();
 
-        return $row === false ? [] : $row;
+        return false === $row ? [] : $row;
     }
 
     /**
@@ -176,7 +177,7 @@ class RideRepository extends ServiceEntityRepository
      * Doctrine converts each value to a date object on the way out, the same
      * work the other implementations do for this endpoint.
      *
-     * @return list<\DateTimeImmutable>
+     * @return list<DateTimeImmutable>
      */
     public function allCheckoutTimes(): array
     {

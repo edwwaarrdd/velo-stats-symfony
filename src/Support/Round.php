@@ -20,7 +20,7 @@ final class Round
      */
     public static function money(int|float|null $value): ?float
     {
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
 

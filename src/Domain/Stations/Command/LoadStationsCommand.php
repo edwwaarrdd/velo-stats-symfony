@@ -34,7 +34,7 @@ final class LoadStationsCommand extends Command
 
         foreach ($fetched as $information) {
             if ($this->repository->upsert($information)) {
-                $created++;
+                ++$created;
             }
         }
 

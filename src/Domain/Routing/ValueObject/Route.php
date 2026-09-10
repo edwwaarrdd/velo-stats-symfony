@@ -17,7 +17,7 @@ final readonly class Route
     }
 
     /**
-     * @param array<string, mixed> $route One entry from an OSRM `routes` array.
+     * @param array<string, mixed> $route one entry from an OSRM `routes` array
      */
     public static function fromOsrmRoute(array $route): self
     {

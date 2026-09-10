@@ -37,11 +37,11 @@ final readonly class RideSummaryCalculator
 
     private static function nullableInt(mixed $value): ?int
     {
-        return $value === null ? null : (int) $value;
+        return null === $value ? null : (int) $value;
     }
 
     private static function nullableFloat(mixed $value): ?float
     {
-        return $value === null ? null : (float) $value;
+        return null === $value ? null : (float) $value;
     }
 }

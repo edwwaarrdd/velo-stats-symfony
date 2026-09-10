@@ -32,7 +32,7 @@ class WeatherRecordRepository extends ServiceEntityRepository
     {
         $record = $this->findOneForRide($ride);
 
-        if ($record === null) {
+        if (null === $record) {
             $record = new WeatherRecord($ride, $observation);
             $this->getEntityManager()->persist($record);
         } else {

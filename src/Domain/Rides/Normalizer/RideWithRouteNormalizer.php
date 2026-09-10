@@ -8,7 +8,6 @@ use App\Domain\Rides\Entity\Ride;
 use App\Domain\Rides\ReadModel\RideWithRoute;
 use App\Support\ApiDateTime;
 use App\Support\Round;
-use DateTimeImmutable;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -59,7 +58,7 @@ final class RideWithRouteNormalizer implements NormalizerInterface, NormalizerAw
                 $actualDurationSeconds,
                 $expectedDurationSeconds,
             ),
-            'weather' => $weather === null ? null : $this->normalizer->normalize($weather, $format, $context),
+            'weather' => null === $weather ? null : $this->normalizer->normalize($weather, $format, $context),
         ];
     }
 
@@ -95,7 +94,7 @@ final class RideWithRouteNormalizer implements NormalizerInterface, NormalizerAw
      */
     private static function speedKmh(?float $distanceMeters, ?float $seconds): ?float
     {
-        if ($distanceMeters === null || $seconds === null || $seconds <= 0.0) {
+        if (null === $distanceMeters || null === $seconds || $seconds <= 0.0) {
             return null;
         }
 
@@ -108,7 +107,7 @@ final class RideWithRouteNormalizer implements NormalizerInterface, NormalizerAw
      */
     private static function durationVsExpectedSeconds(?float $actual, ?float $expected): ?float
     {
-        if ($actual === null || $expected === null) {
+        if (null === $actual || null === $expected) {
             return null;
         }
 

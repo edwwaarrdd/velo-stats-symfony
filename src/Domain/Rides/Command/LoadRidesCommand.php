@@ -42,14 +42,14 @@ final class LoadRidesCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $path = $input->getOption('path');
-        $source = $path === null ? $this->rides : new JsonFileRideService((string) $path);
+        $source = null === $path ? $this->rides : new JsonFileRideService((string) $path);
 
         $fetched = $source->fetchRides();
         $created = 0;
 
         foreach ($fetched as $record) {
             if ($this->repository->upsert($record)) {
-                $created++;
+                ++$created;
             }
         }
 

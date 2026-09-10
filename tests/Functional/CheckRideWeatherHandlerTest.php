@@ -115,7 +115,7 @@ final class CheckRideWeatherHandlerTest extends DatabaseTestCase
 
             public function getWeather(Coordinate $location, DateTimeInterface $at): WeatherObservation
             {
-                $this->calls++;
+                ++$this->calls;
                 $this->asked = [
                     'lat' => $location->lat,
                     'lon' => $location->lon,

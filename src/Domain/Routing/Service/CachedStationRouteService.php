@@ -30,7 +30,7 @@ final readonly class CachedStationRouteService
     {
         $cached = $this->routes->findOneFor($origin, $destination, $mode);
 
-        if ($cached !== null) {
+        if (null !== $cached) {
             return new Route($cached->distanceMeters(), $cached->durationSeconds());
         }
 

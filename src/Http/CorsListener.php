@@ -39,7 +39,7 @@ final readonly class CorsListener
     {
         $request = $event->getRequest();
 
-        if (! $request->isMethod('OPTIONS') || ! $request->headers->has('Origin')) {
+        if (!$request->isMethod('OPTIONS') || !$request->headers->has('Origin')) {
             return;
         }
 
@@ -51,7 +51,7 @@ final readonly class CorsListener
     {
         $origin = $event->getRequest()->headers->get('Origin');
 
-        if ($origin === null || ! in_array($origin, $this->allowedOrigins, true)) {
+        if (null === $origin || !in_array($origin, $this->allowedOrigins, true)) {
             return;
         }
 

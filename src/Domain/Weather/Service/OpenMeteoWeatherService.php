@@ -63,16 +63,14 @@ final readonly class OpenMeteoWeatherService implements WeatherService
             ])
             ->toArray();
 
-        if (! isset($payload['hourly'])) {
-            throw new RuntimeException(
-                'Open-Meteo request failed: '.($payload['reason'] ?? json_encode($payload)),
-            );
+        if (!isset($payload['hourly'])) {
+            throw new RuntimeException('Open-Meteo request failed: '.($payload['reason'] ?? json_encode($payload)));
         }
 
         $targetHour = $at->format('Y-m-d\TH:00');
         $index = array_search($targetHour, $payload['hourly']['time'], strict: true);
 
-        if ($index === false) {
+        if (false === $index) {
             throw new RuntimeException("Open-Meteo response has no observation for {$targetHour}.");
         }
 

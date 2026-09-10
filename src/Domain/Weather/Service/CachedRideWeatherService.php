@@ -27,10 +27,10 @@ final readonly class CachedRideWeatherService
 
     public function getWeather(Ride $ride, Coordinate $location, bool $force = false): WeatherObservation
     {
-        if (! $force) {
+        if (!$force) {
             $cached = $this->records->findOneForRide($ride);
 
-            if ($cached !== null) {
+            if (null !== $cached) {
                 return $cached->toObservation();
             }
         }

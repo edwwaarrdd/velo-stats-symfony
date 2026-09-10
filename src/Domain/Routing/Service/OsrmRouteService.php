@@ -46,9 +46,7 @@ final readonly class OsrmRouteService implements RouteService
             ->toArray();
 
         if (($payload['code'] ?? null) !== 'Ok') {
-            throw new RuntimeException(
-                'OSRM request failed: '.($payload['message'] ?? $payload['code'] ?? 'unknown error'),
-            );
+            throw new RuntimeException('OSRM request failed: '.($payload['message'] ?? $payload['code'] ?? 'unknown error'));
         }
 
         if (($payload['routes'][0] ?? null) === null) {

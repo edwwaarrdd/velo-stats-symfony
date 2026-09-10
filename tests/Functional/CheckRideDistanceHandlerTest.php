@@ -80,7 +80,7 @@ final class CheckRideDistanceHandlerTest extends DatabaseTestCase
 
             public function getRoute(Coordinate $origin, Coordinate $destination, TravelMode $mode): Route
             {
-                $this->calls++;
+                ++$this->calls;
 
                 return new Route(1500.0, 400.0);
             }

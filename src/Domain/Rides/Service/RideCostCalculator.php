@@ -36,7 +36,7 @@ final readonly class RideCostCalculator
         $checkoutTimes = $this->rides->allCheckoutTimes();
         $totalRides = count($checkoutTimes);
 
-        if ($totalRides === 0) {
+        if (0 === $totalRides) {
             return $this->emptySummary();
         }
 

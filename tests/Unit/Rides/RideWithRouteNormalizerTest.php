@@ -109,7 +109,7 @@ final class RideWithRouteNormalizerTest extends TestCase
             self::utc($checkinTime),
         );
 
-        if (! $withRoute) {
+        if (!$withRoute) {
             return new RideWithRoute($ride, null);
         }
 
