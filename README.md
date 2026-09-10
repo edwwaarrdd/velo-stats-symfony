@@ -128,7 +128,8 @@ Within a domain:
 | `Contract` | the interface an upstream service is used through |
 | `Service` | the implementations, and the caches wrapping them |
 | `RequestHandler` | one invokable class per endpoint, carrying its own route |
-| `Response` | mapping a database row to the JSON an endpoint returns |
+| `Normalizer` | mapping an entity to the JSON an endpoint returns |
+| `ReadModel` | the shapes a read query assembles before serialisation |
 | `Message`, `MessageHandler` | the background checks |
 | `Command` | the console commands |
 | `ValueObject`, `Enum` | the types that travel between them |

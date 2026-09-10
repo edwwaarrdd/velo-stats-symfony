@@ -78,6 +78,16 @@ class StationRoute
         $this->durationSeconds = $durationSeconds;
     }
 
+    public function originStationId(): string
+    {
+        return $this->originStation->stationId();
+    }
+
+    public function destinationStationId(): string
+    {
+        return $this->destinationStation->stationId();
+    }
+
     public function distanceMeters(): float
     {
         return $this->distanceMeters;

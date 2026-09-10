@@ -29,6 +29,39 @@ class StationRouteRepository extends ServiceEntityRepository
         ]);
     }
 
+    /**
+     * Every cached route for one travel mode, keyed by the station pair it
+     * connects, so a caller can look up many rides' routes without a query
+     * each.
+     *
+     * @return array<string, StationRoute>
+     */
+    public function findAllIndexedByStationPair(TravelMode $mode): array
+    {
+        $routes = $this->createQueryBuilder('sr')
+            ->where('sr.mode = :mode')
+            ->setParameter('mode', $mode)
+            ->getQuery()
+            ->getResult();
+
+        $indexed = [];
+
+        foreach ($routes as $route) {
+            $indexed[self::key($route->originStationId(), $route->destinationStationId())] = $route;
+        }
+
+        return $indexed;
+    }
+
+    /**
+     * The key both sides of the lookup agree on. Routes are directional, so
+     * the order of the two codes matters.
+     */
+    public static function key(string $originStationId, string $destinationStationId): string
+    {
+        return $originStationId.'|'.$destinationStationId;
+    }
+
     public function save(StationRoute $route): void
     {
         $this->getEntityManager()->persist($route);

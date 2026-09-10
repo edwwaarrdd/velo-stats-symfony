@@ -26,7 +26,7 @@ class WeatherRecord
     #[ORM\Column(name: 'id', type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\OneToOne(targetEntity: Ride::class)]
+    #[ORM\OneToOne(targetEntity: Ride::class, inversedBy: 'weather')]
     #[ORM\JoinColumn(
         name: 'ride_id',
         referencedColumnName: 'ride_id',
@@ -101,6 +101,66 @@ class WeatherRecord
         $this->relativeHumidityPercent = $observation->relativeHumidityPercent;
         $this->weatherCode = $observation->weatherCode;
         $this->observedAt = $observation->observedAt;
+    }
+
+    public function temperatureC(): float
+    {
+        return $this->temperatureC;
+    }
+
+    public function apparentTemperatureC(): float
+    {
+        return $this->apparentTemperatureC;
+    }
+
+    public function precipitationMm(): float
+    {
+        return $this->precipitationMm;
+    }
+
+    public function rainMm(): float
+    {
+        return $this->rainMm;
+    }
+
+    public function snowfallCm(): float
+    {
+        return $this->snowfallCm;
+    }
+
+    public function cloudCoverPercent(): float
+    {
+        return $this->cloudCoverPercent;
+    }
+
+    public function windSpeedKmh(): float
+    {
+        return $this->windSpeedKmh;
+    }
+
+    public function windGustsKmh(): float
+    {
+        return $this->windGustsKmh;
+    }
+
+    public function windDirectionDegrees(): float
+    {
+        return $this->windDirectionDegrees;
+    }
+
+    public function relativeHumidityPercent(): float
+    {
+        return $this->relativeHumidityPercent;
+    }
+
+    public function weatherCode(): int
+    {
+        return $this->weatherCode;
+    }
+
+    public function observedAt(): DateTimeImmutable
+    {
+        return $this->observedAt;
     }
 
     public function toObservation(): WeatherObservation

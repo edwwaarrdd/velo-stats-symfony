@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Rides\Entity;
 
 use App\Domain\Rides\Repository\RideRepository;
+use App\Domain\Weather\Entity\WeatherRecord;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -84,6 +85,14 @@ class Ride
 
     #[ORM\Column(name: 'updated_at', type: 'datetime_immutable', nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
+
+    /**
+     * The weather at the origin station when this ride ended, once it has been
+     * checked. Mapped as the inverse side so the list query can fetch it
+     * alongside the ride rather than one query per row.
+     */
+    #[ORM\OneToOne(mappedBy: 'ride', targetEntity: WeatherRecord::class)]
+    private ?WeatherRecord $weather = null;
 
     public function __construct(
         int $rideId,
@@ -172,6 +181,51 @@ class Ride
     public function checkinTime(): DateTimeImmutable
     {
         return $this->checkinTime;
+    }
+
+    public function accountId(): int
+    {
+        return $this->accountId;
+    }
+
+    public function status(): string
+    {
+        return $this->status;
+    }
+
+    public function duration(): int
+    {
+        return $this->duration;
+    }
+
+    public function bikeNumber(): string
+    {
+        return $this->bikeNumber;
+    }
+
+    public function originStation(): string
+    {
+        return $this->originStation;
+    }
+
+    public function originSlotId(): string
+    {
+        return $this->originSlotId;
+    }
+
+    public function destinationStation(): string
+    {
+        return $this->destinationStation;
+    }
+
+    public function destinationSlotId(): string
+    {
+        return $this->destinationSlotId;
+    }
+
+    public function weather(): ?WeatherRecord
+    {
+        return $this->weather;
     }
 
     public function distanceCheckedAt(): ?DateTimeImmutable

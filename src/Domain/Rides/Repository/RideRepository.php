@@ -13,10 +13,10 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * Every query against rides lives here.
  *
- * The two read models the API serves are written as SQL rather than DQL. They
- * join a ride to its cached route and its weather and then aggregate, which
- * DQL expresses poorly and the query builder expresses worse, and they are on
- * the hot path of the two busiest endpoints.
+ * The list endpoint hydrates entities and hands them to the serializer, which
+ * is what the Laravel implementation does and what makes the two comparable.
+ * The summary is an aggregate returning one row of numbers, so there is
+ * nothing to hydrate and it stays a plain query.
  *
  * @extends ServiceEntityRepository<Ride>
  */
@@ -118,58 +118,22 @@ class RideRepository extends ServiceEntityRepository
     }
 
     /**
-     * Every ride with the fields the list endpoint serves: the cached bike
-     * route for its station pair, and its weather.
+     * Every ride, newest first, with its weather already loaded.
      *
-     * The unique constraint on station_routes means the join matches at most
-     * one route row per ride, so no grouping is needed.
+     * The weather comes back in the same query rather than one lookup per
+     * ride, which is the only thing that could turn this into an N+1.
      *
-     * @return list<array<string, mixed>>
+     * @return list<Ride>
      */
-    public function findAllForApi(): array
+    public function findAllWithWeather(): array
     {
-        $sql = <<<'SQL'
-            SELECT
-                r.ride_id,
-                r.account_id,
-                r.status,
-                r.duration,
-                r.bike_number,
-                r.origin_station_code,
-                r.origin_station,
-                r.origin_slot_id,
-                r.checkout_time,
-                r.destination_station_code,
-                r.destination_station,
-                r.destination_slot_id,
-                r.checkin_time,
-                sr.distance_meters,
-                sr.duration_seconds AS expected_duration_seconds,
-                w.temperature_c,
-                w.apparent_temperature_c,
-                w.precipitation_mm,
-                w.rain_mm,
-                w.snowfall_cm,
-                w.cloud_cover_percent,
-                w.wind_speed_kmh,
-                w.wind_gusts_kmh,
-                w.wind_direction_degrees,
-                w.relative_humidity_percent,
-                w.weather_code,
-                w.observed_at
-            FROM rides r
-            LEFT JOIN station_routes sr
-                ON sr.origin_station_id = r.origin_station_code
-                AND sr.destination_station_id = r.destination_station_code
-                AND sr.mode = :mode
-            LEFT JOIN weather_records w
-                ON w.ride_id = r.ride_id
-            ORDER BY r.checkout_time DESC, r.ride_id DESC
-            SQL;
-
-        return $this->getEntityManager()->getConnection()
-            ->executeQuery($sql, ['mode' => TravelMode::Bike->value])
-            ->fetchAllAssociative();
+        return $this->createQueryBuilder('r')
+            ->addSelect('w')
+            ->leftJoin('r.weather', 'w')
+            ->orderBy('r.checkoutTime', 'DESC')
+            ->addOrderBy('r.rideId', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     /**
@@ -209,21 +173,19 @@ class RideRepository extends ServiceEntityRepository
     /**
      * Every ride's check-out time, which is all the cost calculation needs.
      *
+     * Doctrine converts each value to a date object on the way out, the same
+     * work the other implementations do for this endpoint.
+     *
      * @return list<\DateTimeImmutable>
      */
     public function allCheckoutTimes(): array
     {
-        $rows = $this->getEntityManager()->getConnection()
-            ->executeQuery('SELECT checkout_time FROM rides')
-            ->fetchFirstColumn();
+        $rows = $this->createQueryBuilder('r')
+            ->select('r.checkoutTime')
+            ->getQuery()
+            ->getResult();
 
-        return array_map(
-            static fn (string $value): \DateTimeImmutable => new \DateTimeImmutable(
-                $value,
-                new \DateTimeZone('UTC'),
-            ),
-            $rows,
-        );
+        return array_column($rows, 'checkoutTime');
     }
 
     /**

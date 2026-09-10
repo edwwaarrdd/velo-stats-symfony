@@ -67,14 +67,12 @@ class StationRepository extends ServiceEntityRepository
     }
 
     /**
-     * The four fields the list endpoint serves, in primary key order.
+     * Every station, hydrated, for the serializer to publish.
      *
-     * @return list<array<string, mixed>>
+     * @return list<Station>
      */
     public function findAllForApi(): array
     {
-        return $this->getEntityManager()->getConnection()
-            ->executeQuery('SELECT station_id, name, lat, lon FROM stations')
-            ->fetchAllAssociative();
+        return $this->findAll();
     }
 }
