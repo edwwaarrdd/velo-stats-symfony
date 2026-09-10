@@ -1,0 +1,51 @@
+# Production image: PHP-FPM behind nginx, in place of the framework's built-in
+# server used in development.
+#
+# Also different from the development image: dev dependencies are omitted, the
+# autoloader is authoritative, OPcache is on with timestamp checks off, the
+# container is warmed for the prod environment, and the seeded SQLite database
+# is baked in rather than bind-mounted.
+#
+# The build context is filtered by Dockerfile.prod.dockerignore, which - unlike
+# the development .dockerignore - lets database/database.sqlite through.
+
+FROM php:8.5-fpm
+
+COPY --from=mlocati/php-extension-installer:latest /usr/bin/install-php-extensions /usr/local/bin/
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends git unzip \
+    && install-php-extensions zip intl pdo_sqlite redis opcache \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+ENV COMPOSER_ALLOW_SUPERUSER=1 \
+    APP_ENV=prod \
+    APP_DEBUG=0
+
+WORKDIR /app
+
+COPY composer.json composer.lock symfony.lock ./
+RUN composer install --no-interaction --no-progress --no-scripts --no-dev --prefer-dist
+
+COPY . .
+
+# --classmap-authoritative removes the filesystem lookup the autoloader
+# otherwise performs for every class it has not seen.
+RUN composer dump-autoload --optimize --classmap-authoritative --no-dev
+
+COPY database/database.sqlite /app/database/database.sqlite
+
+# Compile the container and routing table into the image, so the first request
+# after a deploy is as fast as the thousandth.
+RUN php bin/console cache:warmup --env=prod
+
+COPY docker/opcache.ini /usr/local/etc/php/conf.d/zz-opcache.ini
+COPY docker/php-fpm.conf /usr/local/etc/php-fpm.d/zz-www.conf
+
+RUN chown -R www-data:www-data /app/var /app/database
+
+EXPOSE 9000
+
+CMD ["php-fpm", "--nodaemonize"]
