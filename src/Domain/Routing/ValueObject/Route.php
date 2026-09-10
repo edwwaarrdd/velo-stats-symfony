@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Routing\ValueObject;
 
-/**
- * The distance and expected travel time between two points, as a routing
- * service reports them.
- */
 final readonly class Route
 {
     public function __construct(

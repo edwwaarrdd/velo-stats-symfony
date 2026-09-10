@@ -10,8 +10,6 @@ use App\Domain\Routing\Enum\TravelMode;
 use App\Domain\Routing\Repository\StationRouteRepository;
 
 /**
- * Assembles the ride list the API serves.
- *
  * A route belongs to a pair of station codes rather than to a ride, so it
  * cannot be a relation on the entity and cannot be joined as one. Loading the
  * cached routes once and matching them in memory keeps the endpoint to two

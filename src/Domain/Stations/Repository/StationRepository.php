@@ -24,9 +24,6 @@ class StationRepository extends ServiceEntityRepository
         return $this->find($stationId);
     }
 
-    /**
-     * Insert the station, or update the one already stored under this id.
-     */
     public function upsert(StationInformation $information): bool
     {
         $station = $this->findStation($information->stationId);
@@ -67,8 +64,6 @@ class StationRepository extends ServiceEntityRepository
     }
 
     /**
-     * Every station, hydrated, for the serializer to publish.
-     *
      * @return list<Station>
      */
     public function findAllForApi(): array

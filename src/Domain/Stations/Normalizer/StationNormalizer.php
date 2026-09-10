@@ -7,10 +7,6 @@ namespace App\Domain\Stations\Normalizer;
 use App\Domain\Stations\Entity\Station;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-/**
- * Turns a station into the object the API publishes: only what a map needs.
- * The address, capacity and rental methods are stored but not exposed.
- */
 final class StationNormalizer implements NormalizerInterface
 {
     /**

@@ -8,8 +8,6 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
- * The initial schema: stations, rides, cached routes and weather.
- *
  * Hand-written rather than left as generated, because SQLite cannot add a
  * foreign key after the fact: every constraint has to be declared inside its
  * CREATE TABLE.

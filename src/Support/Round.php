@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Support;
 
-/**
- * Rounding for values that appear in API responses.
- */
 final class Round
 {
     public const int PRECISION = 2;

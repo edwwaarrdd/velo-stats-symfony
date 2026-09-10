@@ -10,9 +10,6 @@ use App\Support\RequestHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * Totals and averages across the whole ride history.
- */
 final readonly class RideSummaryHandler implements RequestHandler
 {
     public function __construct(

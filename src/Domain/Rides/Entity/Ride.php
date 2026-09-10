@@ -10,8 +10,6 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * One completed hire, as exported by the operator.
- *
  * The station columns hold codes rather than a relation, and there is
  * deliberately no foreign key to stations: the export contains rides from
  * stations that have since been retired, and those rides still have to load.

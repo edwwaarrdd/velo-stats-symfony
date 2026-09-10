@@ -7,10 +7,6 @@ namespace App\Domain\Weather\ValueObject;
 use DateTimeImmutable;
 use DateTimeZone;
 
-/**
- * One hour of weather at one place, with the upstream's variable names already
- * translated into the names this application uses.
- */
 final readonly class WeatherObservation
 {
     public function __construct(

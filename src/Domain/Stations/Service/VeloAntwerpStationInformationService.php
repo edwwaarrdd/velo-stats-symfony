@@ -8,9 +8,6 @@ use App\Domain\Stations\Contract\StationInformationService;
 use App\Domain\Stations\ValueObject\StationInformation;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-/**
- * Reads the operator's public GBFS station information feed.
- */
 final readonly class VeloAntwerpStationInformationService implements StationInformationService
 {
     public function __construct(

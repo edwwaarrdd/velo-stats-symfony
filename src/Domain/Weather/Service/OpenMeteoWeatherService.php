@@ -13,14 +13,8 @@ use DateTimeZone;
 use RuntimeException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-/**
- * Reads historical weather from the free Open-Meteo archive.
- */
 final readonly class OpenMeteoWeatherService implements WeatherService
 {
-    /**
-     * The variables to request, using Open-Meteo's names for them.
-     */
     public const array HOURLY_VARIABLES = [
         'temperature_2m',
         'apparent_temperature',

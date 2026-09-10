@@ -8,9 +8,6 @@ use App\Domain\Weather\Entity\WeatherRecord;
 use App\Support\ApiDateTime;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-/**
- * Turns a weather record into the object the API publishes.
- */
 final class WeatherRecordNormalizer implements NormalizerInterface
 {
     /**

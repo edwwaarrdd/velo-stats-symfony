@@ -1,17 +1,8 @@
-# Production-shaped stack: nginx in front of a fixed PHP-FPM pool, no bind
-# mounts, no source on the host, the seeded database baked into the image.
-#
-# The CPU limit is the same on all the backends in the comparison, so the
-# runtimes are measured against an equal share of the machine rather than
-# against however many cores each happens to grab. nginx is a thin proxy here
-# and gets a small share of its own.
-
 # A separate project name, so the production images and containers never
 # collide with the development ones and both can stay built side by side.
 name: velo-stats-symfony-prod
 
 services:
-  # The service the harness waits on and benchmarks: nginx is the public port.
   web:
     image: nginx:1.27-alpine
     volumes:

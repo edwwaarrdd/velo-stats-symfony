@@ -10,8 +10,6 @@ enum TravelMode: string
     case Bike = 'bike';
 
     /**
-     * The path segment naming the OSRM instance to route against.
-     *
      * The demo server at router.project-osrm.org only hosts the car profile and
      * silently ignores the profile named in the URL, so every mode came back
      * with car driving times. FOSSGIS runs a separate instance per profile, and

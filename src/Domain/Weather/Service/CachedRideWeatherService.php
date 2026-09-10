@@ -11,8 +11,6 @@ use App\Domain\Weather\ValueObject\WeatherObservation;
 use App\Support\Coordinate;
 
 /**
- * A read-through cache in front of the weather service, keyed by ride.
- *
  * Historical weather never changes, so a ride is looked up once. The force
  * flag exists for the case where the stored observation is wrong rather than
  * stale.

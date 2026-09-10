@@ -11,9 +11,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-/**
- * Every ride, newest first, with its cached distance and weather.
- */
 final readonly class ListRidesHandler implements RequestHandler
 {
     public function __construct(

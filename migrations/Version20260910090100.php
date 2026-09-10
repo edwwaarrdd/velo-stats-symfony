@@ -8,8 +8,6 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
- * Switch the database to write-ahead logging.
- *
  * The default rollback journal takes an exclusive lock on the whole database
  * for every write, which the three queue workers collide on immediately.
  * Write-ahead logging lets readers carry on while one worker writes.

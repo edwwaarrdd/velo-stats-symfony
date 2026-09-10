@@ -11,9 +11,6 @@ use App\Support\Coordinate;
 use RuntimeException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-/**
- * Routes between two points using a public OSRM instance.
- */
 final readonly class OsrmRouteService implements RouteService
 {
     public function __construct(

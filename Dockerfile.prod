@@ -1,14 +1,3 @@
-# Production image: PHP-FPM behind nginx, in place of the framework's built-in
-# server used in development.
-#
-# Also different from the development image: dev dependencies are omitted, the
-# autoloader is authoritative, OPcache is on with timestamp checks off, the
-# container is warmed for the prod environment, and the seeded SQLite database
-# is baked in rather than bind-mounted.
-#
-# The build context is filtered by Dockerfile.prod.dockerignore, which - unlike
-# the development .dockerignore - lets database/database.sqlite through.
-
 FROM php:8.5-fpm
 
 COPY --from=mlocati/php-extension-installer:latest /usr/bin/install-php-extensions /usr/local/bin/

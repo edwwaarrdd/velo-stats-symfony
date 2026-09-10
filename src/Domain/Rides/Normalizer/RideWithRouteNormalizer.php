@@ -12,10 +12,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-/**
- * Turns a ride into the object the API publishes, including the three figures
- * that are derived rather than stored.
- */
 final class RideWithRouteNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
@@ -76,8 +72,6 @@ final class RideWithRouteNormalizer implements NormalizerInterface, NormalizerAw
     }
 
     /**
-     * How long the bike was actually out, to the second.
-     *
      * The stored duration is whole minutes, which is too coarse for anything
      * derived from it.
      */

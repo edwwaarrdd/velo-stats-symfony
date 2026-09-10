@@ -11,8 +11,6 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * A cached route between two stations for one travel mode.
- *
  * The upstream routing service is free and rate-limited, and the answer for a
  * pair of fixed docking stations never changes, so every lookup is stored here
  * and never asked for twice. The unique constraint is the cache key.

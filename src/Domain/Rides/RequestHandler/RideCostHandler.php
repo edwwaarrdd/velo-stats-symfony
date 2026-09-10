@@ -10,9 +10,6 @@ use App\Support\RequestHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * What the subscription cost per ride, against what pay-as-you-go would have.
- */
 final readonly class RideCostHandler implements RequestHandler
 {
     public function __construct(

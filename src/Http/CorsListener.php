@@ -11,8 +11,6 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 /**
- * Cross-origin access for the browser client.
- *
  * The policy is the same across every velo-stats backend: a configured list of
  * origins, any method, any header, no credentials. That is small enough to
  * express directly, and doing so keeps the origin list readable from the

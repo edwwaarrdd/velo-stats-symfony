@@ -7,9 +7,6 @@ namespace App\Domain\Rides\Service;
 use App\Domain\Rides\Repository\RideRepository;
 use App\Support\Round;
 
-/**
- * The aggregate view of every ride.
- */
 final readonly class RideSummaryCalculator
 {
     public function __construct(

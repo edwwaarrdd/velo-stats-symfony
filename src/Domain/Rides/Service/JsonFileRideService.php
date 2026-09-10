@@ -8,9 +8,6 @@ use App\Domain\Rides\Contract\RideDataSource;
 use App\Domain\Rides\ValueObject\RideRecord;
 use RuntimeException;
 
-/**
- * Reads the ride history from the operator's JSON export.
- */
 final readonly class JsonFileRideService implements RideDataSource
 {
     public function __construct(

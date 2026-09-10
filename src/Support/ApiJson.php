@@ -6,10 +6,6 @@ namespace App\Support;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-/**
- * The single place API responses are encoded, so every endpoint agrees on the
- * encoding options.
- */
 final class ApiJson
 {
     /**

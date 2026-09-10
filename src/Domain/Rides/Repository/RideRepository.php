@@ -12,8 +12,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * Every query against rides lives here.
- *
  * The list endpoint hydrates entities and hands them to the serializer, which
  * is what the Laravel implementation does and what makes the two comparable.
  * The summary is an aggregate returning one row of numbers, so there is
@@ -34,8 +32,6 @@ class RideRepository extends ServiceEntityRepository
     }
 
     /**
-     * Insert the ride, or update the one already stored under this id.
-     *
      * The two check timestamps are deliberately not part of the record, so
      * re-importing the export never queues work that has already been done.
      */
@@ -93,8 +89,6 @@ class RideRepository extends ServiceEntityRepository
     }
 
     /**
-     * Ride ids still awaiting a distance check.
-     *
      * @return list<int>
      */
     public function idsAwaitingDistanceCheck(): array
@@ -105,8 +99,6 @@ class RideRepository extends ServiceEntityRepository
     }
 
     /**
-     * Ride ids still awaiting a weather check, or every ride when forced.
-     *
      * @return list<int>
      */
     public function idsAwaitingWeatherCheck(bool $includeChecked = false): array
@@ -119,8 +111,6 @@ class RideRepository extends ServiceEntityRepository
     }
 
     /**
-     * Every ride, newest first, with its weather already loaded.
-     *
      * The weather comes back in the same query rather than one lookup per
      * ride, which is the only thing that could turn this into an N+1.
      *
@@ -138,8 +128,6 @@ class RideRepository extends ServiceEntityRepository
     }
 
     /**
-     * The aggregates the summary endpoint serves.
-     *
      * Distance sums and averages skip rides with no cached route, which the
      * left join gives for free: those rows contribute NULL, and SQL aggregates
      * ignore NULL.
@@ -172,8 +160,6 @@ class RideRepository extends ServiceEntityRepository
     }
 
     /**
-     * Every ride's check-out time, which is all the cost calculation needs.
-     *
      * Doctrine converts each value to a date object on the way out, the same
      * work the other implementations do for this endpoint.
      *

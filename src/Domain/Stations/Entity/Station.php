@@ -9,11 +9,6 @@ use App\Support\Coordinate;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * A Velo Antwerp docking station, as published by the operator's GBFS feed.
- * The station code the feed uses is the primary key, because rides reference
- * stations by that code and nothing else.
- */
 #[ORM\Entity(repositoryClass: StationRepository::class)]
 #[ORM\Table(name: 'stations')]
 #[ORM\HasLifecycleCallbacks]

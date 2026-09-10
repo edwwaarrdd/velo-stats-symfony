@@ -9,10 +9,6 @@ use App\Support\ApiDateTime;
 use App\Support\Round;
 use DateTimeImmutable;
 
-/**
- * What the rides actually cost, and what they would have cost on the two
- * pay-as-you-go alternatives.
- */
 final readonly class RideCostCalculator
 {
     public const float ANNUAL_SUBSCRIPTION_PRICE_EUR = 58.0;

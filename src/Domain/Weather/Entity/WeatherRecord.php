@@ -10,11 +10,6 @@ use App\Domain\Weather\ValueObject\WeatherObservation;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * The weather at a ride's origin station when it was returned. One row per
- * ride, enforced by the unique constraint, so the archive is never queried
- * twice for the same ride.
- */
 #[ORM\Entity(repositoryClass: WeatherRecordRepository::class)]
 #[ORM\Table(name: 'weather_records')]
 #[ORM\UniqueConstraint(name: 'weather_records_ride_id_unique', columns: ['ride_id'])]

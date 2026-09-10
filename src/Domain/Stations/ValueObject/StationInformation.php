@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Stations\ValueObject;
 
-/**
- * One station as the upstream feed describes it, with the fields this
- * application stores and nothing else.
- */
 final readonly class StationInformation
 {
     /**

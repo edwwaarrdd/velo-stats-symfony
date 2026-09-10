@@ -11,9 +11,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-/**
- * Every known docking station, with just enough to place it on a map.
- */
 final readonly class ListStationsHandler implements RequestHandler
 {
     public function __construct(
