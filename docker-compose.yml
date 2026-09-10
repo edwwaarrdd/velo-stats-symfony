@@ -1,0 +1,52 @@
+x-app: &app
+  build: .
+  environment:
+    APP_ENV: dev
+    APP_DEBUG: "0"
+    DATABASE_URL: "sqlite:////app/database/database.sqlite"
+    REDIS_HOST: redis
+    REDIS_PORT: "6379"
+    MESSENGER_TRANSPORT_DSN: redis://redis:6379
+    RIDES_JSON_PATH: data/rides.json
+    CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:5173}
+  volumes:
+    - .:/app
+    # Keep the dependencies installed in the image rather than the host's.
+    - /app/vendor
+  depends_on:
+    redis:
+      condition: service_healthy
+
+services:
+  app:
+    <<: *app
+    command: ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(@file_get_contents('http://localhost:8000/_healthcheck') === false ? 1 : 0);"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  worker:
+    <<: *app
+    command: ["php", "bin/console", "messenger:consume", "default", "-v"]
+
+  # One worker per check queue, each consuming a single message at a time, so
+  # the free upstream APIs are never called concurrently.
+  worker-ride-distance:
+    <<: *app
+    command: ["php", "bin/console", "messenger:consume", "ride_distance_checks", "-v"]
+
+  worker-ride-weather:
+    <<: *app
+    command: ["php", "bin/console", "messenger:consume", "ride_weather_checks", "-v"]

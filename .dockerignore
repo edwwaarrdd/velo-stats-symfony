@@ -1,0 +1,11 @@
+.DS_Store
+.env.local
+.git
+.github
+.phpunit.cache
+tests
+var
+vendor
+database/*.sqlite
+database/*.sqlite-shm
+database/*.sqlite-wal
