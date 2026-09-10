@@ -1,0 +1,33 @@
+name: Tests
+
+on: push
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          # The redis extension is not needed: the test environment routes
+          # messages to the in-memory transport rather than to Redis.
+          php-version: '8.5'
+          extensions: pdo_sqlite, sqlite3, zip, intl
+          coverage: none
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Run the test suite
+        run: php bin/phpunit
