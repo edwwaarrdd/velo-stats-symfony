@@ -1,0 +1,22 @@
+parameters:
+    level: 5
+
+    paths:
+        - src
+        - tests
+
+    symfony:
+        containerXmlPath: var/cache/test/App_KernelTestDebugContainer.xml
+
+    ignoreErrors:
+        # The framework calls this through MicroKernelTrait, which declares its own
+        # private copy, so PHPStan cannot see the call.
+        -
+            message: '#Method App\\Kernel::getAllowedEnvs\(\) is unused#'
+            path: src/Kernel.php
+
+        # The spy assigns to a by-reference property so the test method can read the
+        # value back. PHPStan does not follow the reference out of the class.
+        -
+            identifier: property.onlyWritten
+            path: tests/Functional/CheckRideWeatherHandlerTest.php
