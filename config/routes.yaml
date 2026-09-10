@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=../vendor/symfony/routing/Loader/schema/routing.schema.json
+
+# Routes are declared with #[Route] on the request handler that serves them, so
+# there is no central list here to drift out of sync. This scans src/ for those
+# attributes.
+request_handlers:
+    resource:
+        path: ../src/
+        namespace: App
+    type: attribute

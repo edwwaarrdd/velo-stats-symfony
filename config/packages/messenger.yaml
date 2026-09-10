@@ -1,0 +1,37 @@
+framework:
+    messenger:
+        # Three Redis transports, named after the queues the other velo-stats
+        # backends use, so a worker in any of the five repos consumes the same
+        # logical queue.
+        #
+        # Retries are switched off on purpose. A check that fails leaves the
+        # ride's distance_checked_at or weather_checked_at null, so the next
+        # run of the matching console command simply dispatches it again. That
+        # null column is the whole idempotency design.
+        transports:
+            default:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%/default'
+                retry_strategy:
+                    max_retries: 0
+            ride_distance_checks:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%/ride_distance_checks'
+                retry_strategy:
+                    max_retries: 0
+            ride_weather_checks:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%/ride_weather_checks'
+                retry_strategy:
+                    max_retries: 0
+
+        routing:
+            App\Domain\Rides\Message\CheckRideDistance: ride_distance_checks
+            App\Domain\Weather\Message\CheckRideWeather: ride_weather_checks
+
+when@test:
+    framework:
+        messenger:
+            # Tests assert on what was dispatched rather than running a worker,
+            # so nothing reaches Redis.
+            transports:
+                default: 'in-memory://'
+                ride_distance_checks: 'in-memory://'
+                ride_weather_checks: 'in-memory://'

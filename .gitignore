@@ -1,0 +1,23 @@
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
+
+###> velo-stats ###
+# The SQLite database is built by the migrations and filled by the load
+# commands, so it is never committed.
+/database/*.sqlite
+/database/*.sqlite-shm
+/database/*.sqlite-wal
+###< velo-stats ###
