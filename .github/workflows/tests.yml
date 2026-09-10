@@ -13,10 +13,11 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          # The redis extension is not needed: the test environment routes
-          # messages to the in-memory transport rather than to Redis.
+          # The test environment routes messages to the in-memory transport rather
+          # than to Redis, but symfony/redis-messenger still declares ext-redis, so
+          # Composer refuses to install without it.
           php-version: '8.5'
-          extensions: pdo_sqlite, sqlite3, zip, intl
+          extensions: pdo_sqlite, sqlite3, zip, intl, redis
           coverage: none
 
       - name: Cache Composer packages
